@@ -1,9 +1,9 @@
-#include <stdio.h>
+#include <iostream>
 
 int main() {
-	// ‚Ü‚®‚ëAƒ}ƒOƒƒ†ƒbƒPAÔg–Ž‚ð•\Ž¦‚·‚é
-	printf("‚Ü‚®‚ë\n");
-	printf("ƒ}ƒOƒƒ†ƒbƒP\n");
-	printf("Ôg–Ž\n");
+	// ã¾ãã‚ã€ãƒžã‚°ãƒ­ãƒ¦ãƒƒã‚±ã€èµ¤èº«é®ªã‚’è¡¨ç¤ºã™ã‚‹
+	printf("ã¾ãã‚\n");
+	printf("ãƒžã‚°ãƒ­ãƒ¦ãƒƒã‚±\n");
+	printf("èµ¤èº«é®ª\n");
 	return 0;
 }
