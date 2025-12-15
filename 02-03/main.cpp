@@ -4,7 +4,7 @@
 #include <time.h>
 
 // 遅延実行関数
-void DelayReveal(void (*fn)(int, int), unsigned int delayMs, int roll, int userGuess);
+void DelayReveal(void (*fn)(int, int), int roll, int userGuess);
 
 // 判定関数
 void ShowResult(int roll, int userGuess);
@@ -12,25 +12,24 @@ void ShowResult(int roll, int userGuess);
 int main() {
 	// サイコロの出目とユーザーの予想を格納する変数
 	int roll = 0;
-	int userGuess = 0;
+	int guess = 0;
 
     // 乱数の種を初期化
 	srand((unsigned int)time(NULL)); 
 
-	// ユーザーに偶数か奇数かを予想させる
-	printf("偶数なら0、奇数なら1を入力してください: ");
-	scanf_s("%d", &userGuess);
+	printf("奇数なら正解\n");
+	guess = 1;
 
 	// サイコロを振る
 	roll = rand() % 6 + 1; // 1～6のランダムな数値を生成
 
-	DelayReveal(ShowResult, 3000, roll, userGuess);
+	DelayReveal(ShowResult, roll, guess);
 
 	return 0;
 }
 
-void DelayReveal(void(*fn)(int, int), unsigned int delayMs, int roll, int userGuess) {
-	Sleep(delayMs);
+void DelayReveal(void(*fn)(int, int), int roll, int userGuess) {
+	//Sleep(delayMs);
 
 	fn(roll, userGuess);
 }
