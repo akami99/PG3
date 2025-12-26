@@ -1,14 +1,19 @@
 #include "GameManager.h"
+#include "Novice.h"
+#include "InputManager.h"
 
 // コンストラクタ
 GameManager::GameManager() {
-	// シーンのインスタンスを生成して配列に格納
-	sceneArr_[SCENE::TITLE] = std::make_unique<TitleScene>();
-	sceneArr_[SCENE::GAME_STAGE] = std::make_unique<StageScene>();
-	sceneArr_[SCENE::CLEAR] = std::make_unique<ClearScene>();
+    InputManager::GetInstance()->Initialize();
 
-	// 初期シーンの設定
-	currentSceneNo_ = SCENE::TITLE;
+  // シーンのインスタンスを生成して配列に格納
+  sceneArr_[TITLE] = std::make_unique<TitleScene>();
+  sceneArr_[GAME_STAGE] = std::make_unique<StageScene>();
+  sceneArr_[CLEAR] = std::make_unique<ClearScene>();
+
+  // 初期シーンの設定
+  prevSceneNo_ = TITLE;
+  currentSceneNo_ = TITLE;
 }
 
 // デストラクタ
@@ -16,27 +21,33 @@ GameManager::~GameManager() {}
 
 // ゲームループを回す関数
 int GameManager::Run() {
-	while (true) {
-		// シーンのチェック
-		prevSceneNo_ = currentSceneNo_;
-		currentSceneNo_ = sceneArr_[currentSceneNo_]->GetSceneNo();
+  while (Novice::ProcessMessage() == 0) {
+    Novice::BeginFrame();
+    // 入力の更新
+    InputManager::GetInstance()->Update();
 
-		// シーン変更チェック
-		if (prevSceneNo_ != currentSceneNo_) {
-			// シーンが変わったら初期化を呼び出す
-			sceneArr_[currentSceneNo_]->Init();
-		}
+    // シーンのチェック
+    prevSceneNo_ = currentSceneNo_;
+    currentSceneNo_ = sceneArr_[currentSceneNo_]->GetSceneNo();
 
-		/// 更新処理
-		sceneArr_[currentSceneNo_]->Update(); // シーンごとの更新処理
+    // シーン変更チェック
+    if (prevSceneNo_ != currentSceneNo_) {
+      // シーンが変わったら初期化を呼び出す
+      sceneArr_[currentSceneNo_]->Init();
+    }
 
-		/// 描画処理
-		sceneArr_[currentSceneNo_]->Draw();   // シーンごとの描画処理
+    /// 更新処理
+    sceneArr_[currentSceneNo_]->Update(); // シーンごとの更新処理
 
-		// 終了条件(クリアシーンのとき)
-		if (currentSceneNo_ == SCENE::CLEAR) {
-			break; // ループを抜けて終了
-		}
-	}
-	return 0;
+    /// 描画処理
+    sceneArr_[currentSceneNo_]->Draw(); // シーンごとの描画処理
+
+    Novice::EndFrame();
+
+    // 終了条件
+    if (InputManager::GetInstance()->IsKeyPressed(DIK_ESCAPE)) {
+      break; // ループを抜けて終了
+    }
+  }
+  return 0;
 }

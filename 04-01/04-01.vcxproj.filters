@@ -25,6 +25,7 @@
     <ClCompile Include="IScene.cpp" />
     <ClCompile Include="StageScene.cpp" />
     <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="InputManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\KamataEngine\DirectXGame\audio\Audio.h">
@@ -113,5 +114,6 @@
     <ClInclude Include="IScene.h" />
     <ClInclude Include="StageScene.h" />
     <ClInclude Include="TitleScene.h" />
+    <ClInclude Include="InputManager.h" />
   </ItemGroup>
 </Project>
